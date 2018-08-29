@@ -17,7 +17,7 @@ namespace ConexionSql
 
         public void Conectar()
         {
-            con = new SqlConnection("Cadena de conexion");
+            con = new SqlConnection("ConnectionString");
             con.Open();
             comma = con.CreateCommand();
             tra = con.BeginTransaction(System.Data.IsolationLevel.Serializable);
