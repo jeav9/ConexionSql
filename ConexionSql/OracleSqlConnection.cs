@@ -1,19 +1,23 @@
 ﻿namespace ConexionSql
 {
+    using Oracle.ManagedDataAccess.Client;
     using System;
-    using System.Data.SqlClient;
+    using System.Collections.Generic;
     using System.Data;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
 
-    public class SqlServer
+    public class OracleSqlConnection
     {
-        SqlConnection con;
-        SqlTransaction tra;
-        SqlCommand comma;
-        SqlDataAdapter ad;
+        OracleConnection con;
+        OracleTransaction tra;
+        OracleCommand comma;
+        OracleDataAdapter ad;
 
         public void Conectar()
         {
-            con = new SqlConnection("ConnectionString");
+            con = new OracleConnection("ConnectionString");
             con.Open();
             comma = con.CreateCommand();
             tra = con.BeginTransaction(System.Data.IsolationLevel.Serializable);
@@ -30,7 +34,7 @@
         public System.Data.DataSet seleccionar(string sql)
         {
             DataSet ds = new DataSet();
-            ad = new SqlDataAdapter(sql, con);
+            ad = new OracleDataAdapter(sql, con);
             ad.SelectCommand.Transaction = tra;
             ad.Fill(ds);
             return ds;
@@ -46,8 +50,8 @@
             comma.CommandText = strSQLInsertar;
             comma.CommandType = CommandType.Text;
 
-            SqlParameter paramImagen;
-            paramImagen = new SqlParameter("@FOTO", SqlDbType.Image);
+            OracleParameter paramImagen;
+            paramImagen = new OracleParameter("@FOTO", SqlDbType.Image);
 
             paramImagen.Value = MapaContent;
             paramImagen.Direction = ParameterDirection.Input;
